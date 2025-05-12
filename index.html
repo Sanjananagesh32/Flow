@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Menstrual Cycle Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🩸 Menstrual Cycle Tracker</h1>
+
+    <form id="cycleForm">
+      <label for="lastPeriod">📅 Last Period Start Date:</label>
+      <input type="text" id="lastPeriod" placeholder="Select a date" required />
+
+      <label for="cycleLength">🔁 Average Cycle Length (days):</label>
+      <input type="number" id="cycleLength" value="28" min="20" max="40" required />
+
+      <button type="submit">🚀 Track My Cycle</button>
+    </form>
+  </div>
+
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <!-- Custom Script -->
+  <script>
+    // Activate Flatpickr on the input field
+    flatpickr("#lastPeriod", {
+      dateFormat: "Y-m-d",
+      maxDate: "today"
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("cycleForm");
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const lastPeriodInput = document.getElementById("lastPeriod").value;
+        const cycleLengthInput = document.getElementById("cycleLength").value;
+
+        if (!lastPeriodInput || !cycleLengthInput) {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        const lastPeriodDate = new Date(lastPeriodInput);
+        const cycleLength = parseInt(cycleLengthInput, 10);
+
+        // Calculate next period
+        const nextPeriod = new Date(lastPeriodDate);
+        nextPeriod.setDate(nextPeriod.getDate() + cycleLength);
+
+        // Calculate fertile window
+        const ovulation = new Date(nextPeriod);
+        ovulation.setDate(ovulation.getDate() - 14);
+
+        const fertileStart = new Date(ovulation);
+        fertileStart.setDate(fertileStart.getDate() - 4);
+
+        const fertileEnd = new Date(ovulation);
+        fertileEnd.setDate(fertileEnd.getDate() + 1);
+
+        // Save to localStorage
+        const cycleData = {
+          lastPeriod: lastPeriodDate.toDateString(),
+          nextPeriod: nextPeriod.toDateString(),
+          fertileStart: fertileStart.toDateString(),
+          fertileEnd: fertileEnd.toDateString()
+        };
+
+        localStorage.setItem("cycleData", JSON.stringify(cycleData));
+
+        // Redirect to dashboard
+        window.location.href = "dashboard.html";
+      });
+    });
+  </script>
+</body>
+</html>

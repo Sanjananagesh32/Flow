@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menstrual Cycle Tracker - Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🩸 Cycle Tracker Dashboard</h1>
+
+    <div id="cycleInfo" class="hidden">
+      <p><strong>Last Period:</strong> <span id="lastPeriod"></span></p>
+      <p><strong>Next Period:</strong> <span id="nextPeriod"></span></p>
+      <p><strong>Fertile Window:</strong> <span id="fertileWindow"></span></p>
+    </div>
+
+    <div id="noData" class="hidden">
+      <p>No data found. Please log your cycle first.</p>
+    </div>
+
+    <button onclick="location.href='index.html'">📝 Log New Entry</button>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
